@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <title>चौधरी डेयरी - ऑर्डर</title>
+</head>
+<body>
+
+<h1>📦 चौधरी डेयरी - ऑर्डर हिस्ट्री</h1>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>नाम</th>
+        <th>मोबाइल</th>
+        <th>पता</th>
+        <th>प्रोडक्ट</th>
+        <th>मात्रा</th>
+        <th>तारीख</th>
+    </tr>
+
+    {% for order in orders %}
+    <tr>
+        <td>{{ order[0] }}</td>
+        <td>{{ order[1] }}</td>
+        <td>{{ order[2] }}</td>
+        <td>{{ order[3] }}</td>
+        <td>{{ order[4] }}</td>
+        <td>{{ order[5] }}</td>
+        <td>{{ order[6] }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+</body>
+</html>

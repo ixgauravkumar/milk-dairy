@@ -1,91 +1,108 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <title>चौधरी डेयरी</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+<meta charset="UTF-8">
+<title>Choudhry Dairy</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body {
+    background: #f4fff4;
+}
+.navbar {
+    background: #2e7d32;
+}
+.card {
+    border-radius: 15px;
+    transition: 0.3s;
+}
+.card:hover {
+    transform: scale(1.05);
+}
+.btn-green {
+    background: #2e7d32;
+    color: white;
+}
+</style>
 </head>
+
 <body>
 
-<!-- HERO SECTION -->
-<div class="hero">
-    <h1>🥛 चौधरी डेयरी</h1>
-    <p>शुद्धता का वादा, सेहत का भरोसा</p>
-    <p>हमारे फार्म से सीधे आपके घर तक ताज़ा डेयरी उत्पाद</p>
+<nav class="navbar navbar-dark">
+<div class="container">
+<h3 class="text-white">🌿 Choudhry Dairy</h3>
+</div>
+</nav>
+
+<div class="container mt-4">
+
+<h4>🛒 हमारे उत्पाद</h4>
+
+<div class="row">
+
+<!-- Milk -->
+<div class="col-md-3">
+<div class="card p-3 text-center">
+<img src="/static/images/milk.jpg" class="img-fluid">
+<h5>दूध</h5>
+<p>₹60 / लीटर</p>
+<button class="btn btn-green" onclick="addToCart('दूध',60)">Add</button>
+</div>
 </div>
 
-<!-- PRODUCTS -->
-<div class="animals">
+<!-- Paneer -->
+<div class="col-md-3">
+<div class="card p-3 text-center">
+<img src="/static/images/panner.jpg">
+<h5>पनीर</h5>
+<p>₹400 / KG</p>
+<button class="btn btn-green" onclick="addToCart('पनीर',400)">Add</button>
+</div>
+</div>
 
-    <!-- Milk -->
-    <div class="card">
-        <img src="/static/images/milk.jpg">
-        <h2>ताज़ा दूध</h2>
-        <p>शुद्ध और पौष्टिक दूध</p>
-        <button onclick="selectProduct('दूध')">ऑर्डर करें</button>
-    </div>
-
-    <!-- Paneer -->
-    <div class="card">
-        <img src="/static/images/panner.jpg">
-        <h2>ताज़ा पनीर</h2>
-        <p>मुलायम और स्वादिष्ट पनीर</p>
-        <button onclick="selectProduct('पनीर')">ऑर्डर करें</button>
-    </div>
-
-    <!-- Yoghurt -->
-    <div class="card">
-        <img src="/static/images/yoghurt.jpg">
-        <h2>ताज़ा दही</h2>
-        <p>घर जैसा स्वाद और शुद्धता</p>
-        <button onclick="selectProduct('दही')">ऑर्डर करें</button>
-    </div>
-
-    <!-- Animal Feed -->
-    <div class="card">
-        <img src="/static/images/jowar.jpg">
-        <h2>ज्वार चारा</h2>
-        <p>पशुओं के लिए उच्च गुणवत्ता वाला चारा</p>
-        <button onclick="selectProduct('ज्वार चारा')">ऑर्डर करें</button>
-    </div>
+<!-- Curd -->
+<div class="col-md-3">
+<div class="card p-3 text-center">
+<img src="/static/images/yoghurt.jpg">
+<h5>दही</h5>
+<p>₹80 / KG</p>
+<button class="btn btn-green" onclick="addToCart('दही',80)">Add</button>
+</div>
+</div>
 
 </div>
 
-<!-- ORDER FORM -->
-<div class="form-box">
-    <h2>🛒 ऑर्डर फॉर्म</h2>
+<hr>
 
-    <form action="/place-order" method="POST">
+<h4>🧾 Cart</h4>
+<ul id="cart"></ul>
+<h5>Total: ₹<span id="total">0</span></h5>
 
-        <input type="hidden" name="product" id="product">
+<form method="POST" action="/checkout">
+<input class="form-control mt-2" name="name" placeholder="नाम" required>
+<input class="form-control mt-2" name="mobile" placeholder="मोबाइल" required>
+<textarea class="form-control mt-2" name="address" placeholder="पता"></textarea>
 
-        <input type="text" name="name" placeholder="नाम" required>
-        <input type="text" name="mobile" placeholder="मोबाइल नंबर" required>
-        <input type="text" name="address" placeholder="पता" required>
+<input type="hidden" name="cart_data" id="cart_data">
 
-        <!-- Quantity -->
-        <select name="quantity" required>
-            <option value="">मात्रा चुनें</option>
-            <option value="1 लीटर">1 लीटर</option>
-            <option value="2 लीटर">2 लीटर</option>
-            <option value="500 ग्राम">500 ग्राम</option>
-            <option value="1 किलो">1 किलो</option>
-        </select>
-
-        <button type="submit">ऑर्डर सबमिट करें</button>
-    </form>
-
-    <!-- PAYMENT -->
-    <h3>💳 UPI भुगतान करें</h3>
-    <p>UPI नंबर: <b>8755831257</b></p>
-    <p>नाम: सुमित चौधरी, बिजनौर (246701)</p>
+<button class="btn btn-success mt-3">Order Now</button>
+</form>
 
 </div>
 
 <script>
-function selectProduct(product) {
-    document.getElementById("product").value = product;
-    alert(product + " चयनित किया गया");
+let cart = [];
+let total = 0;
+
+function addToCart(product, price){
+    cart.push({product, price});
+    total += price;
+
+    document.getElementById("cart").innerHTML += `<li>${product} - ₹${price}</li>`;
+    document.getElementById("total").innerText = total;
+
+    document.getElementById("cart_data").value = JSON.stringify(cart);
 }
 </script>
 

@@ -41,6 +41,50 @@ Reload privilege tables?
 
 mysql -u root -p
 
+CREATE USER 'devuser'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON mydb.* TO 'devuser'@'localhost';
+FLUSH PRIVILEGES;
+
+
+
+################################################################################################
+MariaDB [dairy]> SELECT * FROM users;
++----+------------+-----------+------------+----------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| id | first_name | last_name | mobile     | location                                     | password                                                                                                                                                           |
++----+------------+-----------+------------+----------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|  6 | bbg        | kumar     | 7412583690 | meerut                                       | scrypt:32768:8:1$YKmPVdsjTZ8rNEuG$1221a4bec1f5a5fc91b225b32f4a02a4064bb1b5dec4fb1b9aa9b8794827d6bc9c4cf99a8257283a3f737063f36667745665ea3a4209552922c1b181680b7c00 |
+|  7 | Arun       | Kumar     | 7505877845 | Bijnor                                       | scrypt:32768:8:1$Gnp0E9vLfksEfhlQ$2ca05ea4b40910bc5527a41e36dca75feb6948ad8595bda563c1dd34d5a5596497da9e17e9922ec6a3d6ead4b313bcf46ad795d180aea9e3cc18436811870739 |
+|  8 | Aankush    | kumar     | 8985991324 | Village Mohandiya Post Mandawar Distt Bijnor | scrypt:32768:8:1$RnEMptml1xMVtC7W$d94d2b28bc3f4046028405fb0ae141e1558a69b05f4c7d1b708468561cda3a814d970c4187913cd910c4dd2c32d05dbf030fe71911d2e8d46c60a152c2e2c4e9 |
+|  9 | deepak     | kumar     | 9927967606 | Bijnor                                       | scrypt:32768:8:1$HDSUWoYtbYBulj6W$c6ca3233aff4b97b30e010c9bf143ca8b752ee2ac1d400802564dc169457248060823de7185182fd4d874256ef03ea573493f8a3f65c2e507c10448b269abc6a |
+| 10 | dimpal     | kumar     | 9721104016 | Rawali                                       | scrypt:32768:8:1$5kLIQ0WxvpDnS4Hy$bf3c39cedf6aa5a25acc718c1cfd8f4066a2abfea7cda48882fed8d36b79700da443c6a1f65951ea0d1a76f2ff471c873b12d8e7de234ec6b3a546a5bea13c35 |
+| 11 | ccc        | ddd       | 7894561230 | Noida                                        | scrypt:32768:8:1$Jet6XKdtBZfNh7h8$e10b4b6cfae88cd9b700f0fe98b5576b2c8f4a68bd8d2045ba65019cd8a91b3b7a83fa90851cd27fdce44f248cea80de393f17bef595d79d26a7fdab0a3210af |
+| 12 | mango      | kumar     | 8529637410 | noida                                        | scrypt:32768:8:1$mMLTaEVL55Dall5N$2222e7fa3898fa93a87fec06d9119a22933d13fc69c1939627910765150c51ee1da83c539bbdbe7b05bfc0185eefb430d8ff6a4a338b3fca5da0eebc948a643d |
++----+------------+-----------+------------+----------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
+
+
+
+MariaDB [dairy]> SELECT * FROM orders;
++----+---------+-----------------------------------------------------------------------------------------------------------+-------------+---------------------+-----------+
+| id | user_id | cart                                                                                                      | total_price | created_at          | status    |
++----+---------+-----------------------------------------------------------------------------------------------------------+-------------+---------------------+-----------+
+|  1 |       2 | [{"product": "Milk", "price": 60}]                                                                        |          60 | 2026-04-17 12:07:58 | Pending   |
+|  2 |       2 | [{"product": "Curd", "price": 80}]                                                                        |          80 | 2026-04-17 12:22:01 | Pending   |
+|  3 |       3 | [{"price": 400, "product": "Cheese"}, {"price": 400, "product": "Cheese"}]                                |         800 | 2026-04-17 12:44:01 | Pending   |
+|  4 |       4 | [{"price": 80, "product": "Curd"}, {"price": 400, "product": "Cheese"}, {"price": 60, "product": "Milk"}] |         540 | 2026-04-17 14:28:17 | Delivered |
++----+---------+-----------------------------------------------------------------------------------------------------------+-------------+---------------------+-----------+
+4 rows in set (0.078 sec)
+
+MariaDB [dairy]>
+
+
+
+
+
+
+
+
 then exit 
 
 sudo vi /etc/my.cnf.d/mariadb-server.cnf

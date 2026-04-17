@@ -1,0 +1,62 @@
+ install  docker in your  server  by docekr offical site  
+
+
+docker command 
+ docker build --no-cache -t milk-dairy .
+
+
+to run container  
+
+docker run -d \
+  --name dairy-app \
+  -e DB_HOST=172.17.0.1 \
+  -e DB_USER=your_user \
+  -e DB_PASSWORD=your_pass \
+  -e DB_NAME=your_dbname \
+  -e EMAIL_USER=yourmail@gmail.com \
+  -e EMAIL_PASS=tooken \
+  -e ADMIN_EMAIL=yourmail@gmail.com \
+  -p yourportnumber:5000 \
+  milk-dairy
+
+
+
+
+#####################################
+
+install mariadb server on your server 
+
+
+sudo dnf install MariaDB-server MariaDB-client -y
+sudo systemctl enable  mariadb
+sudo systemctl status mariadb
+sudo mysql_secure_installation
+Answer:
+
+Switch to unix_socket authentication? Y
+Remove anonymous users? Y
+Disallow root login remotely? Y
+Remove test database? Y
+Reload privilege tables? 
+
+mysql -u root -p
+
+then exit 
+
+sudo vi /etc/my.cnf.d/mariadb-server.cnf
+
+change this  bind-address=127.0.0.1 to bind-address=0.0.0.0
+
+sudo systemctl restart mariadb
+
+sudo firewall-cmd --permanent --add-port=3306/tcp
+sudo firewall-cmd --reload
+
+
+
+
+
+
+
+
+
